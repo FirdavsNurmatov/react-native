@@ -18,24 +18,31 @@ export default function login() {
             login: 'Войти в систему'
         }
     }
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState('+998');
     const [language, setLanguage] = useState<'uz' | 'ru'>('uz');
 
     const handlePhoneChange = (text: string) => {
         let newValue = text.replace(/\D/g, '');
         if (!newValue.startsWith('998')) {
-            newValue = '998' + newValue;
+            newValue = '998';
         }
         if (newValue.length > 12) {
             newValue = newValue.slice(0, 12);
         }
         setPhone('+' + newValue);
     };
+    const [count, setCount] = useState(0)
 
     const handleLogin = () => {
-        // console.log('Phone:', phone);
-        // console.log('Language:', language);
-        router.push('/enterCode')
+        console.log('Phone:', phone);
+        if (phone.length == 13) {
+            if (phone.startsWith('+998'))
+                router.push({ pathname: '/enterCode', params: { phone: phone } })
+        } else if (count >= 1) {
+            setPhone('')
+        } else {
+            setCount(count)
+        }
     };
 
     return (
@@ -44,12 +51,11 @@ export default function login() {
             <TextInput
                 style={styles.input}
                 keyboardType="phone-pad"
-                placeholder="+998901234567"
                 value={phone}
                 onChangeText={handlePhoneChange}
                 maxLength={13}
             />
-
+            {!phone && <Text>Iltimos telefon nomerni kiriting</Text>}
             <Text style={styles.label}>{language === 'uz' ? languages.uz.appLanguage : languages.ru.appLanguage}</Text>
             <View style={styles.languageContainer}>
                 <TouchableOpacity
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 24,
-        paddingTop:110,
+        paddingTop: 110,
         backgroundColor: '#fff',
         justifyContent: "flex-start",
     },
