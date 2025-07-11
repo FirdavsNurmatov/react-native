@@ -33,9 +33,9 @@ export default function login() {
     };
 
     const handleLogin = () => {
+        // console.log('Phone:', phone);
+        // console.log('Language:', language);
         router.push('/enterCode')
-        console.log('Phone:', phone);
-        console.log('Language:', language);
     };
 
     return (
@@ -95,7 +95,8 @@ export default function login() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 24,
+        paddingHorizontal: 24,
+        paddingTop:110,
         backgroundColor: '#fff',
         justifyContent: "flex-start",
     },
